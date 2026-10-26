@@ -76,19 +76,6 @@ p { margin: 0; }
 
 .stack { display: flex; flex-direction: column; gap: 22px; }
 
-/* The thin line that runs in from the page edge — taken from the logo */
-.lined { position: relative; }
-.lined::before {
-  content: "";
-  position: absolute;
-  left: calc(var(--pad) * -1);
-  top: 0.62em;
-  width: clamp(120px, 16vw, 240px);
-  height: 1px;
-  background: var(--umber);
-}
-h1.lined::before { top: 0.6em; width: clamp(160px, 22vw, 320px); }
-
 /* Buttons and links */
 .btn {
   display: inline-block;
@@ -102,6 +89,7 @@ h1.lined::before { top: 0.6em; width: clamp(160px, 22vw, 320px); }
   font-family: inherit;
   font-size: 16px;
   cursor: pointer;
+  text-align: center;
 }
 .btn:hover { background: #3F2B18; color: var(--white); }
 .link { font-weight: 500; }
@@ -113,7 +101,6 @@ h1.lined::before { top: 0.6em; width: clamp(160px, 22vw, 320px); }
   z-index: 10;
   background: rgba(253, 251, 247, 0.94);
   backdrop-filter: blur(6px);
-  border-bottom: 1px solid transparent;
 }
 .site-header .wrap {
   display: flex;
@@ -124,7 +111,7 @@ h1.lined::before { top: 0.6em; width: clamp(160px, 22vw, 320px); }
   padding-bottom: 20px;
 }
 .logo img { width: 150px; }
-.nav { display: flex; align-items: center; gap: 34px; font-size: 15px; }
+.nav { display: flex; align-items: center; gap: 30px; font-size: 15px; }
 .nav a { color: var(--ink); text-decoration: none; }
 .nav a:hover { color: var(--umber); }
 .nav .btn { color: var(--white); padding: 11px 20px; font-size: 15px; }
@@ -213,6 +200,57 @@ figcaption .title {
 figcaption .medium { font-size: 14px; color: var(--muted); }
 figcaption a { font-size: 14px; padding-top: 6px; white-space: nowrap; }
 
+/* ---------- Shop ---------- */
+/* Price + availability line that sits under a work */
+.price {
+  display: block;
+  font-size: 15px;
+  color: var(--umber);
+  font-weight: 500;
+  margin-top: 2px;
+}
+.status {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 3px 9px;
+  margin-top: 8px;
+  align-self: flex-start;
+}
+.status.sold { color: var(--muted); background: var(--linen); border-color: var(--linen); }
+
+/* The small buy button each shop item gets */
+.buy {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.buy .btn { padding: 12px 22px; font-size: 15px; }
+
+/* Shop item layout: image left, details right */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 72px 48px;
+}
+.shop-item { display: flex; flex-direction: column; gap: 20px; }
+.shop-item img { width: 100%; }
+.shop-item .details { display: flex; flex-direction: column; gap: 6px; }
+.shop-note {
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 60em;
+}
+
 /* ---------- Audiences ---------- */
 .audiences {
   display: grid;
@@ -264,42 +302,17 @@ figcaption a { font-size: 14px; padding-top: 6px; white-space: nowrap; }
 }
 .contact-details { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; font-size: 16px; }
 .contact-details span { color: var(--muted); }
-
-form {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px 32px;
-}
-form label {
+.contact-panel {
+  background: var(--linen);
+  padding: clamp(28px, 4vw, 48px);
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--umber);
+  gap: 20px;
+  align-items: flex-start;
 }
-form .full { grid-column: 1 / -1; }
-input, select, textarea {
-  font-family: inherit;
-  font-size: 17px;
-  color: var(--ink);
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid var(--umber);
-  border-radius: 0;
-  height: 52px;
-  padding: 0 2px;
-}
-textarea {
-  height: auto;
-  min-height: 150px;
-  padding: 14px;
-  border: 1px solid #D5C8B4;
-  background: #FFFFFF;
-  resize: vertical;
-}
-input:focus, select:focus, textarea:focus { outline: 2px solid var(--umber); outline-offset: 2px; }
-.hidden { display: none; }
+.contact-panel h3 { font-size: 30px; }
+.contact-panel ul { margin: 0; padding-left: 20px; color: var(--ink); }
+.contact-panel li { margin-bottom: 6px; }
 
 /* ---------- Footer ---------- */
 .site-footer { border-top: 1px solid var(--line); }
@@ -326,13 +339,14 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--umber); out
    TABLET AND PHONE
    ========================================================= */
 @media (max-width: 1000px) {
-  .nav { gap: 22px; }
+  .nav { gap: 20px; }
   .nav .hide-md { display: none; }
   .collections { grid-template-columns: 1fr 1fr; }
   .collection:nth-child(2) { margin-top: 60px; }
   .collection:nth-child(3) { margin-top: 0; }
   .audiences { grid-template-columns: 1fr; gap: 36px; }
   .commissions { grid-template-columns: 1fr; }
+  .shop-grid { gap: 56px 32px; }
 }
 
 @media (max-width: 760px) {
@@ -349,9 +363,8 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--umber); out
   .gallery { grid-template-columns: 1fr; gap: 48px; }
   .gallery figure { grid-column: auto; }
   .gallery-head { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .shop-grid { grid-template-columns: 1fr; gap: 56px; }
   .steps { grid-template-columns: 1fr; gap: 32px; }
-  form { grid-template-columns: 1fr; }
   .site-footer .wrap { flex-direction: column; align-items: flex-start; }
   .site-footer .small { align-items: flex-start; text-align: left; }
-  .lined::before { display: none; }
 }
